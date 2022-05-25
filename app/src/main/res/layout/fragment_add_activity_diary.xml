@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/addActivityDiary"
+    tools:context=".AddActivityDiary">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:padding="18dp"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/titulo_field"
+            android:inputType="text"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="@string/titulo" />
+        <EditText
+            android:id="@+id/descricao_field"
+            android:inputType="text"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:imeOptions="actionDone"
+            android:maxLines="6"
+            android:hint="@string/descri_o"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <CheckBox
+                android:id="@+id/checkRepeatAllDays"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+            </CheckBox>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Vai repetir todos os dias?"
+                android:textAlignment="viewStart"
+                android:textSize="20sp"
+                tools:ignore="RtlCompat" />
+        </LinearLayout>
+
+        <CalendarView
+            android:id="@+id/calendario_id"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </CalendarView>
+        <Button
+            android:id="@+id/button_select_hour"
+            android:layout_width="match_parent"
+            android:text="@string/seleciona_hor_rio"
+            android:visibility="visible"
+            android:layout_height="50dp">
+        </Button>
+        <Button
+            android:id="@+id/button_save"
+            android:layout_width="match_parent"
+            android:text="@string/salvar"
+            android:layout_height="50dp">
+        </Button>
+    </LinearLayout>
+
+</FrameLayout>

@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">common_activity_diary</string>
+    <string name="done">Feito</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="titulo">Titulo</string>
+    <string name="descri_o">Descrição</string>
+    <string name="seleciona_hor_rio">Seleciona Horário</string>
+    <string name="salvar">Salvar</string>
+</resources>

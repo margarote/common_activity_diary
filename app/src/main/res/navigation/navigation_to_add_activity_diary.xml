@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation_to_add_activity_diary"
+    android:name="androidx.navigation.fragment.NavHostFragment"
+    app:startDestination="@id/home">
+    <fragment
+        android:id="@+id/home"
+        android:name="com.example.common_activity_diary.Home"
+        android:label="Home" >
+        <action
+            android:id="@+id/action_home2_to_addActivityDiaryDialog"
+            app:destination="@id/addActivityDiaryDialog" />
+    </fragment>
+    <fragment
+        android:id="@+id/addActivityDiaryDialog"
+        android:name="com.example.common_activity_diary.AddActivityDiary"
+        android:label="Add Activity Diary" >
+        <action
+            android:id="@+id/action_addActivityDiaryDialog_to_home"
+            app:destination="@id/home" />
+    </fragment>
+</navigation>
