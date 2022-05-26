@@ -14,9 +14,9 @@ interface ActivityDiaryDao {
     fun gelAllActivitiesDiary(): List<ActivityDiaryModel>
 
     @Update
-    fun updateActivityDiary(users: ActivityDiaryModel)
+    fun updateActivityDiary(acitivityDiary: ActivityDiaryModel)
 
     @Delete
-    fun deleteActivityDiary(users: ActivityDiaryModel)
+    fun deleteActivityDiary(acitivityDiary: ActivityDiaryModel)
 
 }

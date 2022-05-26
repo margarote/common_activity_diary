@@ -15,6 +15,8 @@ import com.example.common_activity_diary.converters.ConvertersDate
 import com.example.common_activity_diary.converters.IConvertersDate
 import com.example.common_activity_diary.live_data.HomeViewModel
 import com.example.common_activity_diary.notification.NotificationWork
+import com.example.common_activity_diary.notification.NotificationWork.Companion.NOTIFICATION_DESCRIPTION
+import com.example.common_activity_diary.notification.NotificationWork.Companion.NOTIFICATION_TITLE
 import com.example.common_activity_diary.repository.ActivityRepository
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.*
@@ -85,9 +87,13 @@ class Home : Fragment() {
         if (context != null) {
             val repository = ActivityRepository(context)
             val listActivityDiary = repository.gelAllActivitiesDiary()
-            val dataBuilder = Data.Builder().putInt(NotificationWork.NOTIFICATION_ID, 0).build()
+
 
             listActivityDiary.forEach { data ->
+                val dataBuilder = Data.Builder().putInt(NotificationWork.NOTIFICATION_ID, 0)
+                    .putString(NOTIFICATION_TITLE, data.title)
+                    .putString(NOTIFICATION_DESCRIPTION, data.description)
+                    .build()
                 val date = convertersDate?.convertStringInDate(data.date)
 
                 val timeHoje = Calendar.getInstance().get(Calendar.MINUTE)
@@ -96,8 +102,6 @@ class Home : Fragment() {
                     val isTodayRegistred = validationDateIsToday(data.date)
                     when {
                         !data.isAllDay && data.dateRegistry.isEmpty() -> {
-                            NotificationWork.NOTIFICATION_TITLE = data.title
-                            NotificationWork.NOTIFICATION_DESCRIPTION = data.description
 
                             val notificationWork =
                                 OneTimeWorkRequest.Builder(NotificationWork::class.java)
@@ -114,8 +118,6 @@ class Home : Fragment() {
                             repository.updateActivityDiary(data)
                         }
                         data.isAllDay && !isTodayRegistred -> {
-                            NotificationWork.NOTIFICATION_TITLE = data.title
-                            NotificationWork.NOTIFICATION_DESCRIPTION = data.description
 
                             val notificationWork =
                                 OneTimeWorkRequest.Builder(NotificationWork::class.java)
