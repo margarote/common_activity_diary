@@ -10,13 +10,15 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.lifecycle.MutableLiveData
 import com.example.common_activity_diary.R
+import com.example.common_activity_diary.live_data.HomeViewModel
 import com.example.common_activity_diary.models.ActivityDiaryModel
 import com.example.common_activity_diary.repository.ActivityRepository
 
 class CustomArrayAdapter(
     private val currentListItems: MutableLiveData<List<ActivityDiaryModel>>,
     private val mContext: Context?,
-    private val repository: ActivityRepository?
+    private val homeViewModel: HomeViewModel,
+    private val activityRepository: ActivityRepository,
 ) : BaseAdapter() {
 
     override fun getCount(): Int {
@@ -64,8 +66,7 @@ class CustomArrayAdapter(
             dialog.cancel()
         }
         alertDialog.setPositiveButton("Confirmar") { _, _ ->
-            repository?.deleteActivityDiary(currentActivityDiaryModel)
-            currentListItems.value = repository?.gelAllActivitiesDiary()
+            homeViewModel.deleteActivityDiary(currentActivityDiaryModel, activityRepository)
         }
         alertDialog.show()
     }

@@ -17,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.common_activity_diary.converters.ConvertersDate
 import com.example.common_activity_diary.converters.IConvertersDate
 import com.example.common_activity_diary.live_data.AddActivityDiaryViewModel
+import com.example.common_activity_diary.live_data.HomeViewModel
 import com.example.common_activity_diary.models.ActivityDiaryModel
 import com.example.common_activity_diary.repository.ActivityRepository
 import com.google.android.material.snackbar.Snackbar
@@ -26,16 +27,18 @@ class AddActivityDiary : Fragment(), TimePickerDialog.OnTimeSetListener {
 
     var activityDiaryModel: ActivityDiaryModel? = null
     var addActivityDiaryViewModel: AddActivityDiaryViewModel? = null
-    var activityRepository: ActivityRepository? = null
     var convertersDate: IConvertersDate? = null
+    lateinit var homeViewModel: HomeViewModel
+    lateinit var activityRepository: ActivityRepository
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        activityRepository = ActivityRepository(context!!)
+        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         addActivityDiaryViewModel =
             ViewModelProvider(this).get(AddActivityDiaryViewModel::class.java)
         activityDiaryModel = ActivityDiaryModel(null, "", "", "00:00:00", "", false, "")
-        activityRepository = ActivityRepository(context!!)
         convertersDate = ConvertersDate()
     }
 
@@ -106,7 +109,7 @@ class AddActivityDiary : Fragment(), TimePickerDialog.OnTimeSetListener {
             val resultValidation = validationButtonSave(view)
 
             if (resultValidation) {
-                activityRepository?.insertActivityDiary(activityDiaryModel!!)
+                homeViewModel.insertActivityDiary(activityDiaryModel!!, activityRepository)
                 findNavController().navigate(R.id.action_addActivityDiaryDialog_to_home)
             }
         }

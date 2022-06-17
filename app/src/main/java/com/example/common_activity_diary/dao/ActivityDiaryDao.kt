@@ -8,15 +8,15 @@ import com.example.common_activity_diary.models.ActivityDiaryModel
 interface ActivityDiaryDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertActivityDiary(users: ActivityDiaryModel)
+    suspend fun insertActivityDiary(users: ActivityDiaryModel)
 
     @Query("Select * from activityDiary")
-    fun gelAllActivitiesDiary(): List<ActivityDiaryModel>
+    suspend fun gelAllActivitiesDiary(): List<ActivityDiaryModel>
 
     @Update
-    fun updateActivityDiary(acitivityDiary: ActivityDiaryModel)
+    suspend fun updateActivityDiary(acitivityDiary: ActivityDiaryModel)
 
     @Delete
-    fun deleteActivityDiary(acitivityDiary: ActivityDiaryModel)
+    suspend fun deleteActivityDiary(acitivityDiary: ActivityDiaryModel)
 
 }

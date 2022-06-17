@@ -26,14 +26,14 @@ class Home : Fragment() {
 
     var listViewWidget: ListView? = null
     lateinit var homeViewModel: HomeViewModel
-    private var activityRepository: ActivityRepository? = null
+    lateinit var activityRepository: ActivityRepository
     private var convertersDate: IConvertersDate? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         activityRepository = ActivityRepository(context!!)
+        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+        homeViewModel.fetchActivityDiary(activityRepository)
         convertersDate = ConvertersDate()
     }
 
@@ -44,8 +44,6 @@ class Home : Fragment() {
         val screen = inflater.inflate(R.layout.home, container, false)
 
         listViewWidget = screen.findViewById(R.id.listviewPrimary)
-        val resultData = activityRepository?.gelAllActivitiesDiary()
-        homeViewModel.currentListItems.value = resultData ?: listOf()
 
         clickButtonMore(screen)
         observeListActivityDiary()
@@ -59,7 +57,8 @@ class Home : Fragment() {
         var arrayAdapter = CustomArrayAdapter(
             homeViewModel.currentListItems,
             context,
-            activityRepository
+            homeViewModel,
+            activityRepository,
         )
 
         listViewWidget?.adapter = arrayAdapter
@@ -68,7 +67,8 @@ class Home : Fragment() {
             arrayAdapter = CustomArrayAdapter(
                 homeViewModel.currentListItems,
                 context,
-                activityRepository
+                homeViewModel,
+                activityRepository,
             )
             listViewWidget?.adapter = arrayAdapter
         })
@@ -83,10 +83,9 @@ class Home : Fragment() {
     }
 
 
-    private fun scheduleNotification(context: Context?) {
+    private  fun scheduleNotification(context: Context?) {
         if (context != null) {
-            val repository = ActivityRepository(context)
-            val listActivityDiary = repository.gelAllActivitiesDiary()
+            val listActivityDiary = homeViewModel.currentListItems.value ?: listOf()
 
 
             listActivityDiary.forEach { data ->
@@ -115,7 +114,7 @@ class Home : Fragment() {
                                 notificationWork
                             ).enqueue()
                             data.dateRegistry = Date().toString()
-                            repository.updateActivityDiary(data)
+                            homeViewModel.updateActivityDiary(data, activityRepository)
                         }
                         data.isAllDay && !isTodayRegistred -> {
 
@@ -131,7 +130,7 @@ class Home : Fragment() {
                                 notificationWork
                             ).enqueue()
                             data.dateRegistry = Date().toString()
-                            repository.updateActivityDiary(data)
+                            homeViewModel.updateActivityDiary(data, activityRepository)
                         }
                         else -> {
 
